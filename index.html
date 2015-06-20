@@ -113,7 +113,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/书单/" style="font-size: 10px;">书单</a> <a href="/tags/教程总结/" style="font-size: 10px;">教程总结</a> <a href="/tags/游戏/" style="font-size: 20px;">游戏</a>
+						<a href="/tags/书单/" style="font-size: 10px;">书单</a> <a href="/tags/教程总结/" style="font-size: 15px;">教程总结</a> <a href="/tags/游戏/" style="font-size: 20px;">游戏</a>
 					</div>
 				</section>
 				
@@ -194,6 +194,91 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-game/2015061901" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/19/game/2015061901/" class="article-date">
+  	<time datetime="2015-06-18T16:11:00.000Z" itemprop="datePublished">2015-06-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/19/game/2015061901/">大话设计模式笔记-1</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="大话设计模式笔记-1_1-100页">大话设计模式笔记-1 1-100页</h1><hr>
+<p>面向对象编程优点：可维护，可扩展，可复用，灵活性好<br>聚合 是一种弱拥有 例如 大雁 和雁群<br>合成 是一种强拥有 例如 鸟和翅膀  类的初始化时实例化一对翅膀<br>关联 是一个类知道另一个类 企鹅和气候<br>UML类图的学习<br><img src="/images/2015061901.png" style="width: 300px;"></p>
+<ol>
+<li>简单公厂类<br><img src="/images/2015061904.jpg" style="width: 300px;"><br>例如计算器 运算基类（虚方法virtual 或abstract）  运算子类（override实际实现方法） 简单工厂类（静态类生成运算基类类型，判断类型返回实例化的类型）和运算基类并联关系。<br>市场促销策略模式 </li>
+</ol>
+<p>好处：工厂类包含必要的逻辑判断</p>
+<ol>
+<li>工厂方法模式</li>
+</ol>
+<p><img src="/images/2015061909.jpg" style="width: 300px;"><br>  让工厂类的子类来判断实例化哪个类，需要扩展的时候就增加子类，这符合开发封闭原则的精神。但内部的逻辑判断从工厂类移动到了客户端代码来进行。</p>
+<ol>
+<li>策略模式简化了单元模式</li>
+</ol>
+<p><img src="/images/2015061908.jpg" style="width: 300px;"><br> 使每个算法都有单独的类，可以通过自己的接口单独测试，策略模式是一种关联。超市反馈例子中简单工厂模式客户端需要知道两个类Cashsuper(现金基类参数为原价）和Cashfactory工厂类而 策略模式只需要知道Cashcontext（声明一个cashsuper，构造方法传入cashsuper某个子类收费策略，根据收费策略获得计算结果。和基类聚合关系）。</p>
+<ul>
+<li>单一职责原则：一个类而言应该只有一个引起它变化的原因 如果一个类承担的职责过多，一个职责变化可能抑制其他职责变化。</li>
+<li>开放封闭性原则：频繁变化的那一部分做成抽象</li>
+<li>依赖倒转原则：针对接口编程，不要对实现编程。依赖抽象接口或抽象类就不怕更改。</li>
+<li><strong>里氏代换原则</strong>使得开放封闭成为可能，子类必须可以替换它的父类型，高层和底层模块都依赖抽象类。比如猫、狗、牛、羊都有动物的基本特性吃喝，，而企鹅并非继承鸟（因为它不具备飞这个特性）。除了约定的接口，它们灵活自如。</li>
+</ul>
+<ol>
+<li>装饰模式 </li>
+</ol>
+<p><img src="/images/2015061906.jpg" style="width: 300px;"></p>
+<p>将核心职责与功能区分开，可以去掉相关类中的装饰逻辑。component定义一个对象接口，concreteComponent定义一个具体对象 Decorator装饰抽象类，从外类扩展component的功能。只有一个concreate而没有component，可以让Decorator直接继承concrete。<br>concreteComponent 人类Person +Show（）<br>Decorator 服装类Finery（protected并联 Person类） +decorate（人） +override Show（）</p>
+<ol>
+<li>代理模式</li>
+</ol>
+<p><img src="/images/2015061902.jpg" style="width: 300px;"><br>  接口subject 定义realsubject和Proxy的公共接口，这样使用realsubject时可以直接使用代理proxy<br>代理就是真实对象的代表。<br><img src="/images/2015061903.jpg" style="width: 300px;"></p>
+<ol>
+<li>原型模式</li>
+</ol>
+<p><img src="/images/2015061905.jpg" style="width: 300px;"><br>  从一个对象创建另一个可定制对象，而且不需要知道创建细节。 初始化的信息不发生变化的情况下，克隆是最好的办法。这隐藏了创建细节并对性能大大提高。不用初始化对象相当于获得对象运行时状态。<br>不需要实例化concretePrototype 直接克隆this.MemberwiseClone()  （缺点：浅表复制，只复制值类型没有复制引用对象，对引用修改取值于最后一次修改）继承接口ICloneable.<br><img src="/images/2015061907.jpg" style="width: 300px;"><br> <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> Object <span class="title">Clone</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line"> <span class="keyword">return</span> (Object)<span class="keyword">this</span>.MemberwiseClone();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程总结/">教程总结</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-game/2015061801" class="article article-type-post" itemscope itemprop="blogPost">
   
