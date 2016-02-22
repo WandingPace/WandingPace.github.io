@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>游戏引擎架构 | Leap&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="游戏引擎架构
+基于代理，每个游戏都有至少一个实体软实时系统，硬实时系统  是否会造成灾难性的后果游戏引擎复用性的连续谱  通用性和最优性的取舍。上层依赖下层，下层依赖上层称为循环依赖。循环依赖倒置系统间复杂的耦合。时间片方式， 抢占式多任务，多个执行中的程序能共享硬件。STL，C++标准模板库可能有内存分配问题。在主机上有限的虚拟内存功能导致代价极高。
+
+平台独立层核心系统层资源管理层低阶渲染器，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游戏引擎架构">
+<meta property="og:url" content="http://yoursite.com/2016/02/22/notes/2016022201/index.html">
+<meta property="og:site_name" content="Leap's blog">
+<meta property="og:description" content="游戏引擎架构
+基于代理，每个游戏都有至少一个实体软实时系统，硬实时系统  是否会造成灾难性的后果游戏引擎复用性的连续谱  通用性和最优性的取舍。上层依赖下层，下层依赖上层称为循环依赖。循环依赖倒置系统间复杂的耦合。时间片方式， 抢占式多任务，多个执行中的程序能共享硬件。STL，C++标准模板库可能有内存分配问题。在主机上有限的虚拟内存功能导致代价极高。
+
+平台独立层核心系统层资源管理层低阶渲染器，">
+<meta property="og:updated_time" content="2016-02-22T14:37:45.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="游戏引擎架构">
+<meta name="twitter:description" content="游戏引擎架构
+基于代理，每个游戏都有至少一个实体软实时系统，硬实时系统  是否会造成灾难性的后果游戏引擎复用性的连续谱  通用性和最优性的取舍。上层依赖下层，下层依赖上层称为循环依赖。循环依赖倒置系统间复杂的耦合。时间片方式， 抢占式多任务，多个执行中的程序能共享硬件。STL，C++标准模板库可能有内存分配问题。在主机上有限的虚拟内存功能导致代价极高。
+
+平台独立层核心系统层资源管理层低阶渲染器，">
+  
+    <link rel="alternative" href="/atom.xml" title="Leap&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img lazy-src="https://avatars3.githubusercontent.com/u/7385793?v=3&amp;u=659d1e6c70911e74c651371fd2da0210411e570d&amp;s=140" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Leap</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Leap is leaping</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/3120327273/profile?topnav=1&wvr=6" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/leapp" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/书单/" style="font-size: 10px;">书单</a> <a href="/tags/教程总结/" style="font-size: 20px;">教程总结</a> <a href="/tags/游戏/" style="font-size: 20px;">游戏</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">福建师范大学软件学院12级， unity游戏程序。兴趣：天文，游戏。</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Leap</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://avatars3.githubusercontent.com/u/7385793?v=3&amp;u=659d1e6c70911e74c651371fd2da0210411e570d&amp;s=140" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Leap</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Leap is leaping</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/3120327273/profile?topnav=1&wvr=6" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/leapp" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-notes/2016022201" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/02/22/notes/2016022201/" class="article-date">
+  	<time datetime="2016-02-22T14:56:00.000Z" itemprop="datePublished">2016-02-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      游戏引擎架构
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程总结/">教程总结</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="游戏引擎架构">游戏引擎架构</h1><hr>
+<p><strong>基于代理</strong>，每个游戏都有至少一个实体<br><strong>软实时系统，硬实时系统</strong>  是否会造成灾难性的后果<br>游戏引擎复用性的连续谱  通用性和最优性的取舍。<br>上层依赖下层，下层依赖上层称为循环依赖。<strong>循环依赖</strong>倒置系统间复杂的耦合。<br><strong>时间片方式， 抢占式多任务</strong>，多个执行中的程序能共享硬件。<br>STL，C++标准模板库可能有内存分配问题。在主机上有限的虚拟内存功能导致代价极高。</p>
+<blockquote>
+<p>平台独立层<br>核心系统层<br>资源管理层<br>低阶渲染器，使用材质系统和动态光照系统管理图形硬件状态和游戏的着色器。</p>
+</blockquote>
+<p><strong>图元</strong>：组成像素的基本单元，如点线面。<br><strong>片元</strong>：具有位置，法向量等属性的像素点<br><strong>片段</strong>（fragments）：是指具有相同属性的一小部分像素区域。</p>
+<p><strong>前端</strong>：HUD,FMV全动视频，IGC游戏内置电影。<br><strong>动画系统和渲染引擎的联系</strong>：动画系统生成骨骼中所有骨头的姿势，这些姿势以矩阵调色板形式传给渲染引擎。渲染器利用矩阵表转换顶点。这个过程也称为蒙皮<br><strong>游戏性基础层</strong>，连接低阶引擎子系统和游戏性代码。脚本，代理等</p>
+<p><strong>原数据</strong>：美术人员DCC数字内容创作。DCC所使用的数据格式一般不直接用到游戏里（数据过多，读取较慢），DCC到游戏引擎的管道称为资产调节通道。一般游戏团队建立自定义格式及专门的导出器。<br><strong>三维模型</strong>（也称作<strong>网格</strong>），由三角形和顶点组成（因为现在硬件几乎都是为渲染光栅化三角形而设计），每个网格使用一个或者多个材质。<br><strong>网格，骨骼，动画片段</strong>:骨骼网格是特殊的网格，又称作皮肤。动画数据内存密集（为每个骨骼记录生一串4x3的矩阵），所以每个引擎采用的压缩机制各不相同。</p>
+<p><strong>编译器</strong> 编译成对象文件，连接器连接对象文件和库文件（library）成可执行程序。预处理器处理#include文件处理difine宏的定义和替换。<br><strong>内联和函数</strong>：内联函数具有一般函数的特性，它与一般函数所不同之处只在于函数调用的处理。一般函数进行调用时，要将程序执行权转到被调用函数中，然后再返回到调用它的函数中；而内联函数在调用时，是将调用表达式用内联函数体来替换。<br><strong>内联和宏</strong>区别一个是在编译器控制 一个是预处理器对宏的替代</p>
+<p><strong>剖析器</strong><br>统计式，目标代码执行速度差不多，计算函数执行时间的近似百分比。<br>测控式，精准详尽，须预处理可执行文件</p>
+<p><strong>声明和定义</strong>，定义是实体的引用，定义是实体本身，一个定义必然是是一个声明，相反不然。每个定义都有链接规范，内部链接 外部链接；<br>可执行映像分为几个相连的</p>
+<blockquote>
+<p>块（段，节），代码段-<br>数据段(初始化全局和静态)-<br>BSS（未初始化）-<br>只读数据段（const ）<br>程序堆栈和堆栈帧（返回地址+cpu寄存备份+局部变量）</p>
+</blockquote>
+<p>可自由分配的内存：堆内存<br>static 用于 文件作用域 函数作用域 struct与class<br>C++异常处理(相关错误代码保存到异常对象上，堆栈辗转开解寻找try函数调用块)功能虽然强大，然而每个调用帧会变大。消耗更多的性能。</p>
+<h4 id="三维数学部分">三维数学部分</h4><p>迪卡尔坐标系，<br>圆柱坐标系（高度，辐射轴，角度） 球坐标系（俯仰角，偏航角，半径长度）</p>
+<p><strong>点积</strong>：判断方向是否一致，计算高度<br><strong>叉积</strong>：左手坐标系左手定则，右手坐标系右手定则。计算法矢量，物理模拟中产生的力矩。<br><strong>齐次坐标</strong>：点或矢量从三维延伸至四维</p>
+<p>模型空间-世界空间-观察空间</p>
+<p>表示旋转：</p>
+<blockquote>
+<p>欧拉角（不能轻易插值，万向锁）<br>3x3矩阵（不容易插值，9个浮点数）<br>轴角（不容易插值，不能直接用于点或矢量）<br>四元数  SQT变换  对偶四元数 </p>
+</blockquote>
+<p><strong>自由度DOF</strong>  DOF个数 = 参数个数 - 约束个数<br><strong>包围盒</strong>：AABB OBB 平截头体</p>
+<p><strong>SIMD单指令多数据</strong>，游戏引擎中的SSE(单指令多数据流扩展)模式常为32位浮点数打包模式，4个32float被打包进128位寄存器（SSE寄存器）。</p>
+<p><strong>随机数生成器</strong>：线性同余产生器  梅森旋转算法 所有之母 Xorshift</p>
+<h2 id="第二部分_游戏低阶引擎">第二部分 游戏低阶引擎</h2><p>采用单例管理器管理各个子系统的启动顺序。渲染；动画；碰撞；物理；声音；</p>
+<p><strong>内存管理</strong></p>
+<blockquote>
+<p>1，减少动态内存分配（堆分配malloc new） 原因：用户模式和内核模式这种上下文切换耗费时间。<br>或者定制分配器（用户模式下进行的缓冲）<br>2，操作的数据高效编排内存中</p>
+</blockquote>
+<p><strong>内存分配器</strong><br><strong>基于堆栈的分配器</strong>：堆栈分配器和双端堆栈分配器.(完全避免了内存碎片的产生，连续分配，逆向释放)<br><strong>池分配器</strong>：具体结构数据整数倍。（池内所有内存块一样大，不会因为缺乏足够大的连续内存，而造成分配失败）<br>、<br><strong>单帧和双缓存分配器</strong>：游戏循环中的临时数据是否在本次循环迭代结束后丢弃。<br>内存碎片引起的内存分配失败，<strong>虚拟内存</strong>技术（多数游戏引擎不会支持）：每块内存页，映射到虚拟地址空间。 物理内存不足时，将久没使用的内存写进磁盘。</p>
+<p><strong>碎片整理</strong>：未分配内存冒泡到内存地址高地址。必须将指向移动地址的指针逐一更新（重定位）。c/c++不好维护这些指针。舍弃指针取而代之用智能指针或句柄。</p>
+<p><strong>链表</strong><br><strong>外露式 和 侵入式</strong>： 每个元素能 （不能）同时置于多个链表中，<br>单向链表移除操作 时间复杂度O（n），循环链表时间复杂度O(1)<br>字典用键插值 时间复杂度O（logn） </p>
+<p><strong>散列表</strong>(hash)实现中时间复杂度O(1) 散列表平均分报需要优秀的散列函数降低碰撞机会</p>
+<p><strong>UTF-8</strong>每个字符1-3个字节 向后兼容ASCII<br><strong>UTF-16</strong>每个字节准确使用16位，是宽字符集<br>window字符集无关的代码 提供t为前缀的类型 （tchar），<br><strong>CSV</strong> 逗号分隔型取值<br>读写<strong>可配置选项</strong></p>
+<blockquote>
+<p>1文本配置文件2经压缩二进制文件3windows注册表4线上用户设定档<br>个别用户选项</p>
+<h3 id="资源及文件系统">资源及文件系统</h3><p><strong>资源数据库</strong>，<br><strong>资产调节通道</strong>：导出游戏引擎所用的数据 。三个阶段到达引擎 1导出器：为DCC（数字内容制作）工具编写插件，2资源编译器：DCC导出的数据做处理 3资源链接器：多个资源结合成单个有用的包</p>
+</blockquote>
+<p>需要小心维护资源依赖关系和生成规则</p>
+<p>游戏引<strong>擎资源管理器</strong>主要功能：载入资源至内存  </p>
+<blockquote>
+<p>1.确保有且只有一份副本<br>2.管理每个资源的生命期<br>3.维护引用完整性(载入复合资源，管理器需要确保其子资源也被载入)<br> 4.管理资源用量<br> 5.载入时进行自定义处理<br> 6.通常：提供统一接口，能处理串流（streaming）</p>
+</blockquote>
+<p> 每个资源都必须有一个全局<strong>唯一标识符（GUID）</strong><br> <strong>资源注册表</strong>：记录已载入的资源；GUID为键，指向资源内存的指针为值；</p>
+<p> 游戏进行中加载资源会导致游戏<strong>卡顿解决方法</strong>：游戏进行中完全禁止加载资源，只在游戏开始前全部载入；资源异步形式加载（数据采用串流），玩家在关卡A时，关卡B的资源在背景加载；</p>
+<p> <strong>管理资源生命期</strong>，资源载入很容易确定，何时卸下归还内存就不容易回答，解决方法：对资源使用引用计数，载入关卡前遍历所需的资源，资源引用计数+1，遍历即将卸下的资源引用计数-1； 这样可以处理两个关卡间资源共享的问题；</p>
+<p> 资源所需<strong>内存管理</strong>： </p>
+<blockquote>
+<p>1基于堆资源分配；<br> 2基于堆栈：不会有内存碎片问题，因为内存是连续分配的；两个条件：1游戏是线性的以关卡为中心    2内存足够容纳各个完整的关卡；<br> 3基于池的内存分配：资源数据以同等大小的组块载入。</p>
+</blockquote>
+<h3 id="游戏循环及实时模拟">游戏循环及实时模拟</h3><p>传统绘画GUI会采用矩形失效技术。仅让屏幕中有改动的区域重绘。</p>
+<p>动画子系统通常30Hz或60Hz的更新率，动力学模拟需要120HZ；人工智能只需1,2秒更新一次</p>
+<p><strong>真实时间线</strong>：CPU高分辨率计时寄存器；</p>
+<p><strong>取△t</strong>：CPU计时器取两次值，一次是帧开始时，另一次是帧结束时。使用上一帧来估计下一帧的时间，会使游戏进入低帧率的恶性循环。（帧率尖峰） </p>
+<blockquote>
+<p>使用移动平均：计算连续几帧的平均时间来计算下一帧△t;缓和瞬间效能尖峰所带来的影响，但对帧率转变的应变能力就越小。<br>调控帧率：与其计算下一帧△t，不如尝试保证每帧都准确消耗同样的时间（比如33.3ms）。耗时小于这个时间只需要让主线程休眠直到达到目标时间，耗时大于这个时间只好白等下一个目标时间。但若经常遇到慢帧，游戏就会经常在30Hz和15Hz之间徘徊。（开发时停留在可变帧率，若能一贯达到目标帧率则开启帧率调控）。</p>
+</blockquote>
+<p>帧率稳定的好处：稳定的帧率可以防止 更新视频的速率若不配合屏幕的刷新率导致的画面撕裂。使游戏中的录播功能变得更可靠。</p>
+<h3 id="人体学接口设备">人体学接口设备</h3><p>轮询检测输入：读取硬件寄存器或内存映射的I/O端口，硬件中断方式通信：由硬件生成信号，让CPU暂停主程序 执行中断服务程序代码。 </p>
+<p>输入类型</p>
+<blockquote>
+<p>数字式按钮 0表示松开 1表示按着<br> 单向式绝对轴(模拟式轴按钮)<br> 双向绝对轴<br> 相对轴<br> …</p>
+</blockquote>
+<p> <strong>上下文相关控制</strong>：状态机判断</p>
+<h2 id="调试及开发工具">调试及开发工具</h2><p>日志跟踪，调试绘图，游戏内置菜单，作弊，剖析器</p>
+<h1 id="第三部分_图形与动画">第三部分 图形与动画</h1><h2 id="渲染引擎">渲染引擎</h2><p>三维渲染过程</p>
+<blockquote>
+<p>虚拟场景<br>定位和定向一个虚拟摄像机<br>设置光源<br>描述物体表面的视觉特征<br>渲染引擎计算经过像素聚焦于虚拟摄像机焦点的光线，计算其强度。这个过程是求解渲染方程（着色方程）</p>
+</blockquote>
+<p>实时渲染之所以使用三角形：</p>
+<blockquote>
+<p>最简单的多边形<br>必然是平坦的<br>经过多次转换，如仿射转换，透视转换之后仍然是三角形<br>几乎所有图形加速硬件都是为三角形光栅化而设计的</p>
+</blockquote>
+<p><strong>LOD层次细节</strong><br>LOD 0最高紧密的镶嵌，物体远离摄像机时，引擎会把网格从LOD 0 换位LOD 1 ，LOD2……</p>
+<p>缠绕顺序：构造三角形网格的时候，需要定义哪个面是正面，哪个面是背面。</p>
+<p>三角形表：定义网格的时候，每三个顶点为一组列举。<br>索引化三角形表：每个顶点仅列举一次，然后用轻量级的顶点索引（通常每个索引16位）来定义组成三角形的三个顶点。 DX下顶点储存于顶点缓冲，OpenGL下称为顶点数组。 索引储存另外一个单独缓冲，称为索引缓冲。</p>
+<p>颜色储存于位图：可使用不同的颜色格式，颜色格式的定义部分由每像素位数（BPP）决定。RGB888,24位/像素，加上alpha通道，32位/像素。</p>
+<p>三角形网格的<strong>顶点属性</strong>：</p>
+<blockquote>
+<p>位置矢量 Pi<br>顶点法矢量 Ni：用于每顶点动态光照的计算。<br>顶点切线矢量 Ti<br>漫反射颜色 Di(四元数矢量):<br>镜面颜色 Si<br>纹理坐标 Uij<br>蒙皮权重</p>
+</blockquote>
+<p>取得网格表面的<strong>每像素属性</strong>：</p>
+<blockquote>
+<p>1.对每顶点属性进行线性插值（高氏作色法） ，应用的的顶点属性：顶点法矢量，纹理坐标，深度等； </p>
+</blockquote>
+<p><strong>纹理种类</strong>：</p>
+<blockquote>
+<p>漫反射贴图（反射率贴图）：储存表面的漫反射颜色，好比表面贴上贴纸或涂上油漆；<br>法线贴图：RGB值编码后的法矢量<br>光泽贴图：每个纹素上描述表面的光泽<br>环境贴图：含周围环境的图像以渲染反射效果</p>
+</blockquote>
+<p><strong>纹理贴图</strong>可以计算任何在计算着色时需要的信息，如查找表LUT</p>
+<p><strong>纹理坐标</strong>：归一化为（0,0）到（1,1）；</p>
+<p>纹理密度大于1会引致莫列波纹，摄像机移动像素的颜色会显得浮动不定及闪烁。高纹理密度渲染这些物体会照成内存浪费。</p>
+<p><strong>多级渐远纹理（mipmap/mip level）</strong>：希望无论物体是远是近，仍然维持纹理密度接近于1.</p>
+<p><strong>材质</strong>：网格视觉特征的完整描述，包括贴在网格表面的纹理设置和一些高级特性，如选择什么着色器，该着色器的输入参数。由于网格包含所有的顶点信息，所以网格和材质结合后包含所有需要渲染物体的信息。</p>
+<p><strong>光照模型</strong></p>
+<blockquote>
+<p>局部光照模型：只考虑直接光照，光发射后，碰到物体反射直接进入虚拟摄像机的虚拟平面；<br>全局光照模型：除了直接光照还需要考虑间接光照，如逼真的阴影、反射表面、模拟光学现象光线跟踪和辐射 度算法。全局光照由渲染方程（着色方程）表示；</p>
+</blockquote>
+<p>Phong氏反射 = 环境+漫反射+镜面反射</p>
+<p><strong>BRDF图表</strong>：沿视线方向V的向外（反射）辐射与沿入射光线L进入的进出辐射之比；</p>
+<p><strong>全屏抗锯齿（FSAA）</strong>：影像渲染至比屏幕高一倍宽一倍的帧缓冲里。然后再把帧缓冲缩减采样至所需的分辨率。缺点：耗时，渲染4倍像素。<br>多重采样抗锯齿（MSAA）：每个像素分拆成多个片段，片段在管道最后阶段结合成单个像素。现在GPU能支持（4x，8x的多重采样）</p>
+<p><strong>遮挡与深度缓冲</strong></p>
+<blockquote>
+<p>1、画家算法：三角形互相穿插的时候不适用。<br>2、深度缓冲：不需要理会三角形的渲染次序，每个像素含16或24位的缓冲数据，度量其深入屏幕的深度。 当物体越离开摄像机，深度值1/z越难精确；w缓冲：克服此问题，我们希望深度缓冲储存在观察空间z坐标而非裁切空间z坐标，这样深度值就能均匀精度 。</p>
+</blockquote>
+<p><strong>渲染管道（pipeline）</strong>：一连串顺序计算阶段（state），每个阶段操作输入流的数据项，并对输出流产生数据；管道化架构的优点：并行化。<br>管道吞吐量：每秒产生数据量。管道潜伏期：单个数据需要多长时间完成整个管道的数据处理。<br><strong>管道中高级阶段</strong>：</p>
+<blockquote>
+<p>工具阶段（脱机）：定义几何和表面材质；<br>资产调节段（脱机）：处理几何和材质数据。生成引擎可用材质。<br>应用程序（CPU）：识别潜在可视网格实例，呈交图像硬件以供处理。<br>几何阶段（GPU）: 顶点变换照明投影至齐次裁切空间。可选择用几何着色器处理三角形。<br>光栅化（GPU）：把三角形转换为片段，对片段着色。片段经过多次测试最终与帧缓冲混合。</p>
+</blockquote>
+<p><strong>GPU管道</strong>：</p>
+<blockquote>
+<p>1、顶点着色器：可编程，输出是完成变换及光照后的顶点。<br>2、几何着色器：可编程，齐次裁切空间表示的整个图元；能够剔除或修改输入的图元，也能生成新的图元。典型应用：包括阴影体积的拉伸。 单个n顶点几何图元（n=1,2,3）<br>3、流输出：可编程，容许把达至管道阶段的数据写回内存。数据回到管道之始做进一步处理。例子，头发渲染，顶点着色器内头发样条控制点进行物理模拟，几何着色器把样条镶嵌成线段。流输出把镶嵌后的顶点数据写回内存。<br>4、裁切：把三角形在平截头体外的部分剔除。<br>5、屏幕映射：缩放和平移顶点。齐次裁切空间变换至屏幕空间。<br>6、三角形建立<br>7、三角形遍历<br>8、提前深度测试<br>9、像素着色器：可编程，替每个像素着色。可以对多个纹理采样、计算每像素光照。<br>合并/光栅运算阶段</p>
+</blockquote>
+<p><strong>着色器寄存器</strong>：输入，常数，临时，输出寄存器。每个寄存器能保存4个32位浮点数。</p>
+<p>着色语言所定义的struct或变量由着色器编译并把他们映射至寄存器：</p>
+<blockquote>
+<p>语义<br>输入输出<br>uniform声明</p>
+</blockquote>
+<p>场景，设计一种数据结构管理场景中所有的几何物体，并能迅速丢弃大量完全不接近摄像机平截头体的部分。<br>场景图：四叉树，八叉树，BSP树，kd树，空间散列技术。</p>
+<p><strong>贴图</strong>：</p>
+<blockquote>
+<p>法线贴图，每个纹素代表表面法矢量的方向；<br>高度贴图，平面表面表现高度变化；<br>镜面贴图，Ks值存入镜面贴图的纹素，控制每个位置的纹素能造成多少镜面反射。<br>环境贴图，分为球面和立方</p>
+</blockquote>
+<p><strong>高动态范围（HDR）</strong>：捕捉大范围的光照强度。通过色调映射映射到有限强度范围的显示设备（帧缓冲色彩通道限于0~1）</p>
+<p><strong>延迟渲染</strong>：传统三角形光栅化是在观察空间进行，替三角形顶点着色，可能在光栅化阶段被深度测试剔除。延迟渲染中光照计算是在屏幕空间进行，首先渲染不含光照场景，完成场景渲染利用几何缓冲中的信息计算光照和着色。<br><strong>几何缓冲</strong>是物理上一组缓冲实现的包含：深度，剪切空间，和表面发矢量，漫反射颜色，甚至预计算辐射系数。<br><strong>粒子系统</strong>：</p>
+<blockquote>
+<p>大量quad卡片组成，每个quad包含两个三角形。<br>面片法矢量总是朝向摄像机的焦点。<br>面片都是半透明的，粒子系统有严格渲染顺序。<br>动画。<br>不断出生湮灭。</p>
+<h2 id="动画系统">动画系统</h2><p><strong>角色动画发展</strong>：赛璐璐动画》刚性层阶式动画》每顶点动画（数据密集），可做面部表情动画 》 蒙皮动画（骨骼，皮肤）</p>
+</blockquote>
+<p>姿势：绑定姿势，局部姿势。<br>后期处理：</p>
+<blockquote>
+<p>程序式动画，<br>逆动力学（IK;拾取物体，希望角色的手能完全与目标物体对齐）：输入全局姿势，输出局部姿势；输入称作末端受动器，输出局部姿势使末端受动器能达到指定位置。<br>正向运动学（FK）:输入一组局部姿势，输出全局姿势。</p>
+</blockquote>
+<p>动画系统三个软件层：</p>
+<blockquote>
+<p>动画管道<br>动作状态机<br>动画控制器</p>
+</blockquote>
+<h3 id="碰撞和刚体动力学">碰撞和刚体动力学</h3><p><strong>碰撞原型</strong>：AABB（轴对齐） OBB(定向包围盒) 离散定向多胞行（DOP）<br><strong>GJK算法</strong>：检测任意凸多胞形的碰撞；</p>
+<p><strong>运行时对象模型</strong>：</p>
+<blockquote>
+<p>以属性为中心：每个对象仅以唯一的标示符表示；每个对象的属性分布于多个数据表，每种属性对应一个表；以队形表示符为键，<br>以对象为中心：每个游戏对象运行时是以单个实例或数个相连实例所表示；</p>
+</blockquote>
+<p> 深宽层次结构常见问题：</p>
+<blockquote>
+<p>类的理解，维护和修改<br> 不能表达多维的分类</p>
+</blockquote>
+<h3 id="对象引用和世界查询">对象引用和世界查询</h3><p> <strong>句柄</strong>：某全局句柄表的<strong>整数</strong>索引；句柄表指向引用对象的指针；比指针更安全更有弹性，支持内存重定位。除了保存整数还需保存唯一的对象标示符，防止新的对象创建占用相同的句柄表位置。</p>
+<p> 游戏<strong>对象查询</strong>：</p>
+<blockquote>
+<p>1,用游戏对象唯一标识符：游戏指针或句柄存在散列表或二叉树查找树<br> 2，玩家范围对象：建立某游戏对象类型的表<br> 3，某类型对象<br> 4，血量少于xx对象<br> 5，爆炸半径范围内对象：空间散列结构储存游戏对象。<br> 6，子弹弹道或抛射物路径中的对象：光线投射功能</p>
+</blockquote>
+<p> <strong>桶式更新</strong>：存在对象间的依赖，对象间的依赖想象成依赖树，只有根节点的桶更新才能更新依赖子节点的桶。<br> 对象状态缓冲：保存之前的状态和更新后的状态。任何对象都可以安全查询，更新的过程中都有一个一致的状态；</p>
+<p> 把<strong>事件封装成对象</strong>的好处==》（命令模式）：</p>
+<blockquote>
+<p>1单个事件处理函数：仅需要单个虚函数就能处理所有的事件类型；<br> 2持久性：事件对象和函数调用的区别是,函数的参数在调用返回后就离开作用域；事件对象把其类型储存为参数数据，事件对象持久性可以储存为队列，稍后处理，也可以广播给多个接受者；<br> 3盲目的转发对象：对象可以转发它收到的事件至另一个对象。</p>
+</blockquote>
+<p> 事件类型：使用一个全局枚举（enum），把事件类型映射至唯一整数。<br> 事件参数：1，储存为variant的集合。 2，键值对作为事件参数。<br> 事件处理器：虚函数，通常包含switch。<br> 游戏对象中的关系，作对象关系图。在游戏关系图中转发事件。是面向对象，事件驱动编程中一种常见的设计模式。称<strong>职责链模式</strong>。<br> 登记对事件的关注：为了提高事件处理的效率，需要事件处理器只登记所关心的事件。</p>
+<p> <strong>事件排队</strong>的好处：</p>
+<blockquote>
+<p>控制时间的时机：确保事件在安全及合理的时机获得处理。<br>往未来投递事件的能力<br>事件的优先次序</p>
+</blockquote>
+<p>带来的问题</p>
+<blockquote>
+<p>增加事件处理的复杂度。<br>为队列中的事件作动态内存分配<br>调试困难</p>
+</blockquote>
+<p>EMP发出的脉冲令不同对象作出不同反应解决方案：</p>
+<blockquote>
+<p>1,去掉事件类型，用传送数据流代替：每个对象有一个至多个输入/输出端口</p>
+</blockquote>
+<h3 id="脚本">脚本</h3><p>游戏脚本语言分为两种：</p>
+<blockquote>
+<p>数据定义语言：声明式的语言，让用户创建和填充数据结构供引擎读取。<br>运行时脚本语言：运行时的引擎上下文中执行的。</p>
+</blockquote>
+<p>程序语言的分类：</p>
+<blockquote>
+<p>直译式和编译式：直译式可以在运行时直接解析，或是先编译成平台无关的字节码。然后这些字节码在虚拟机中执行；编译式源码由编译器翻译成机器码并在CPU上执行； 虚拟机执行字节码的速度比CPU执行机器码的速度慢很多。<br>命令式：程序由指令序列组成，C/C++<br>声明式：描述要做什么但不指明如何取得结果。HTML<br>函数式：声明式的子集<br>过程式和面向对象<br>反射式语言和非反射式语言：C#和C/C++</p>
+</blockquote>
+<p>游戏脚本：直译性，轻量，支持快速迭代，方便使用。<br>脚本所需的架构：</p>
+<blockquote>
+<p>回调脚本，<br>事件处理器脚本，<br>以脚本扩展游戏对象类型或定义新类型，<br>组件或属性脚本<br>脚本驱动的引擎系统<br>脚本驱动的游戏</p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/06/19/game/2015061901/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">大话设计模式笔记-1</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="notes/2016022201" data-title="游戏引擎架构" data-url="http://yoursite.com/2016/02/22/notes/2016022201/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Leap
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
